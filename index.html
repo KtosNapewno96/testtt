@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rider's Bike Garage - profesjonalny serwis rowerowy</title>
+<title>Rider's Bike Garage - Profesjonalny Serwis Rowerowy</title>
 
 <style>
 :root {
@@ -290,8 +290,155 @@ section {
     transform: none !important;
 }
 
+.why-box {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.why-box div {
+    padding: 15px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.why-box div:hover {
+    transform: scale(1.03);
+}
+
+#lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.9);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+/* kontener */
+.glow-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* animowany połysk */
+.glow-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.25),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+    animation: glowMove 4s linear infinite;
+}
+
+/* stały lekki glow */
+.glow-section {
+    box-shadow: 0 0 20px rgba(0,200,83,0.3);
+}
+
+/* animacja */
+@keyframes glowMove {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    margin-left: 10px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: #ccc;
+    border-radius: 30px;
+    transition: 0.4s;
+}
+
+/* kółko */
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    top: 3px;
+
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+/* aktywny (ciemny tryb) */
+input:checked + .slider {
+    background: #2196f3;
+    box-shadow: 0 0 10px #2196f3;
+}
+
+input:checked + .slider::before {
+    transform: translateX(24px);
+}
+
+.theme-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+.theme-label {
+    white-space: nowrap;
+}
+
 </style>
 </head>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img">
+</div>
 
 <body>
 
@@ -307,6 +454,7 @@ section {
         <div class="menu-item"><a href="#godziny">Godziny</a></div>
         <div class="menu-item"><a href="#mapa">Jak dojechać</a></div>
         <div class="menu-item"><a href="#galeria">Galeria realizacji</a></div>
+        <div class="menu-item"><a href="#dlaczego">Dlaczego my?</a></div>
         <div class="underline" id="underline"></div>
     </div>
 
@@ -314,8 +462,14 @@ section {
         <div>📞 +48 606 296 789</div>
         <div>📍 Ogrodowa 13, 46-320 Strojec</div>
         <div id="statusText" class="status"></div>
-        <div class="toggle-btn" onclick="setDark()">🌙</div>
-        <div class="toggle-btn" onclick="setLight()">☀️</div>
+        <div class="theme-container">
+  <span class="theme-label">Tryb ciemny</span>
+
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="slider"></span>
+  </label>
+</div>
     </div>
 </div>
 
@@ -349,6 +503,22 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
             <img src="1.jpg">
             <img src="2.jpg">
         </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="dlaczego" class="glow-section">
+  <div class="section-inner">
+
+    <h1>Dlaczego warto nas wybrać?</h1>
+
+    <div class="why-box">
+      <div>✔ Doświadczenie i precyzja</div>
+      <div>✔ Szybka realizacja napraw</div>
+      <div>✔ Profesjonalne narzędzia</div>
+      <div>✔ Indywidualne podejście do klienta</div>
+      <div>✔ Gwarancja jakości usług</div>
     </div>
 
   </div>
@@ -522,11 +692,20 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
     <h1>Galeria realizacji</h1>
 
     <div class="gallery">
-        <img src="6.jpg">
-        <img src="7.jpg">
-        <img src="8.jpg">
-        <img src="9.jpg">
-        <img src="10.jpg">
+        <img src="6.jpg" onclick="openLightbox(this.src)">
+        <img src="7.jpg" onclick="openLightbox(this.src)">
+        <img src="8.jpg" onclick="openLightbox(this.src)">
+        <img src="9.jpg" onclick="openLightbox(this.src)">
+        <img src="10.jpg" onclick="openLightbox">
+        <img src="11.jpg" onclick="openLigtbox(this.src)">
+        <img src="12.jpg" onclick="openLigtbox(this.src)">
+        <img src="13.jpg" onclick="openLightbox(this.src)">
+        <img src="14.jpg" onclick="openLightbox(this.src)">
+        <img src="15.jpg" onclick="openLightbox(this.src)">
+        <img src="16.jpg" onclick="openLightbox(this.src)">
+        <img src="17.jpg" onclick="openLightbox(this.src)">
+        <img src="18.jpg" onclick="openLightbox(this.src)">
+        <img src="19.png" onclick="openLightbox(this.src)">
     </div>
 
   </div>
@@ -627,6 +806,35 @@ document.addEventListener("DOMContentLoaded", () => {
         inner.classList.add("show");
     });
 
+});
+
+function openLightbox(src) {
+    const lightbox = document.getElementById("lightbox");
+    const img = document.getElementById("lightbox-img");
+
+    img.src = src;
+    lightbox.style.display = "flex";
+}
+
+function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+const toggle = document.getElementById("themeToggle");
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    toggle.checked = true;
+}
+
+toggle.addEventListener("change", () => {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
 });
 
 setInterval(updateStatus,60000);
