@@ -473,74 +473,67 @@ input:checked + .slider::before {
     margin-top: 50px;
 }
 
-.contact-box {
-    margin-top: 30px;
-    padding: 25px;
-    border-radius: 15px;
-
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    max-width: 500px;
+.home-contact {
+    margin-top: 20px;
 }
 
-.contact-box h2 {
-    margin-bottom: 15px;
-}
-
-/* inputy */
-.contact-box input,
-.contact-box textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-
-    border-radius: 8px;
-    border: none;
-
-    outline: none;
-    background: rgba(255,255,255,0.1);
-    color: black;
-}
-
-/* textarea */
-.contact-box textarea {
-    resize: none;
-    height: 100px;
-}
-
-/* przycisk */
-.contact-box button {
-    width: 100%;
-    padding: 12px;
-
-    border: none;
-    border-radius: 8px;
+.contact-btn {
+    display: inline-block;
+    padding: 12px 18px;
 
     background: linear-gradient(135deg, #2196f3, #00c6ff);
     color: white;
 
+    border-radius: 10px;
+    text-decoration: none;
     font-weight: bold;
-    cursor: pointer;
 
     transition: 0.3s;
 }
 
-/* hover efekt 🔥 */
-.contact-box button:hover {
+/* hover */
+.contact-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 15px #2196f3;
 }
 
-body.dark .contact-box {
-    background: rgba(0,0,0,0.4);
+.service-item {
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
 }
 
-#formStatus {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #4caf50;
+/* glow */
+.service-item::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+
+    background: radial-gradient(circle, rgba(33,150,243,0.25), transparent 60%);
+    top: var(--y);
+    left: var(--x);
+
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.service-item:hover::before {
+    opacity: 1;
+}
+
+.service-item {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+/* delikatny cień przy hover */
+.service-item:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 </style>
@@ -609,22 +602,10 @@ Dbamy o każdy detal — od prawidłowego momentu dokręcenia śrub, przez odpow
 Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, kompleksowego serwisu — możesz liczyć na rzetelne podejście, transparentną wycenę oraz fachowe doradztwo. Zapraszamy do skorzystania z naszych usług i dołączenia do grona zadowolonych klientów.
 </p>
 
-<div class="contact-box">
-
-  <h2>Napisz do nas</h2>
-
-  <form id="contactForm">
-
-    <input type="email" name="email" placeholder="Twój e-mail" required>
-
-    <textarea name="message" placeholder="Wpisz wiadomość..." required></textarea>
-
-    <button type="submit">Wyślij</button>
-
-    <p id="formStatus"></p>
-
-  </form>
-
+<div class="home-contact">
+  <a href="mailto:kamilk@data.pl" class="contact-btn">
+    📧 kamilk@data.pl 📧
+  </a>
 </div>
 
 </div>
@@ -982,34 +963,42 @@ toggle.addEventListener("change", () => {
     }
 });
 
-const form = document.getElementById("contactForm");
-const statusText = document.getElementById("formStatus");
+document.querySelectorAll(".service-item").forEach(item => {
+    item.addEventListener("mousemove", e => {
+        const rect = item.getBoundingClientRect();
 
-form.addEventListener("submit", function(e) {
-    e.preventDefault();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-    const formData = new FormData(form);
-
-    fetch("https://formsubmit.co/ajax/KtosNapewno97@proton.me", {
-        method: "POST",
-        headers: { 'Accept': 'application/json' },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success === "true") {
-            statusText.textContent = "✅ Wysłano!";
-            form.reset();
-        } else {
-            statusText.textContent = "❌ Błąd wysyłki";
-        }
-    })
-    .catch(() => {
-        statusText.textContent = "❌ Błąd połączenia";
+        item.style.setProperty("--x", x + "px");
+        item.style.setProperty("--y", y + "px");
     });
 });
 
-setInterval(updateStatus,60000);
+document.querySelectorAll(".service-item").forEach(item => {
+
+    item.addEventListener("mousemove", (e) => {
+        const rect = item.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -10; // góra/dół
+        const rotateY = ((x - centerX) / centerX) * 10;  // lewo/prawo
+
+        item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    });
+
+    item.addEventListener("mouseleave", () => {
+        item.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    });
+
+});
+
+setInterval(updateStatus,4);
 </script>
 
 <footer class="footer">
