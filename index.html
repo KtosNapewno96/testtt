@@ -13,6 +13,17 @@
     --accent: #111;
 }
 
+
+
+/* Ten kod zaświeci KAŻDY link w menu, żebyśmy wiedzieli, czy selektor działa */
+.menu-item a, 
+li a {
+    color: #fff !important;
+    text-shadow: 0 0 10px #2196f3, 0 0 20px #00f3ff !important;
+    display: inline-block !important;
+}
+
+
 body.dark {
     --bg: #121212;
     --text: #fff;
@@ -27,50 +38,137 @@ body {
 }
 
 /* NAVBAR */
+
 .navbar {
     position: fixed;
-    top: 10px;
-    left: 10px;
-    right: 10px;
+    top: 15px;
+    left: 20px;
+    right: 20px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 25px;
 
-    border-radius: 12px;
-    background: rgba(20,20,20,0.6);
-    backdrop-filter: blur(10px);
+    padding: 10px 20px;
 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    border-radius: 14px;
+
+    background: rgba(20,20,20,0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
     z-index: 1000;
 }
 
 .menu {
-    display: flex;
-    gap: 20px;
     position: relative;
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }
 
 .menu-item a {
-    color: white;
+    position: relative;
+
     text-decoration: none;
-    transition: transform 0.2s;
+    color: white;
+    font-weight: 500;
+
+    padding: 6px 10px;
+    border-radius: 8px;
+
+    transition: 0.3s;
 }
 
-.menu-item:hover {
-    transform: scale(1.08);
+/* hover efekt */
+.menu-item a:hover {
+    color: #4fc3f7;
 }
 
-/* underline slider */
+/* subtelne tło hover */
+.menu-item a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.menu-item a:hover::after {
+    opacity: 1;
+}
+
+/* Ten kod zaświeci KAŻDY link, który ma w nazwie klasy słowo 'active' */
+[class*="active"] {
+    color: #fff !important;
+    text-shadow: 0 0 10px #2196f3, 0 0 20px #2196f3, 0 0 40px #2196f3 !important;
+    display: inline-block !important;
+    position: relative !important;
+}
+
+[class*="active"]::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -5px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 3px !important;
+    background: #2196f3 !important;
+    box-shadow: 0 0 20px #2196f3 !important;
+}
+
+
+.navbar img {
+    transition: 0.3s;
+}
+
+.navbar img:hover {
+    transform: scale(1.05);
+}
+
+.navbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.1),
+        transparent 40%
+    );
+
+    pointer-events: none;
+}
+
+/* JEDEN WSPÓLNY PASEK NEONOWY */
 .underline {
     position: absolute;
-    bottom: -5px;
-    height: 2px;
-    width: 0;
-    background: white;
-    transition: all 0.3s ease;
+    bottom: -2px;
+    height: 3px; /* Troszkę grubszy, żeby neon lepiej bił po oczach */
+    background: #00f3ff;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.8), 0 0 5px #00f3ff;
+    
+    /* EFEKT GUMY: specyficzna krzywa Beziera dla elastyczności */
+    transition: 
+        left 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
+        width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        opacity 0.3s ease;
+
+    pointer-events: none;
+    z-index: 1001;
+    border-radius: 2px;
+    transform: translateZ(0); /* Żeby 1% Low nie spadło przez procesor */
 }
+
 
 /* STATUS */
 .status {
@@ -253,6 +351,14 @@ section {
     margin-top: 20px;
 }
 
+#uslugi, #uslugi * {
+  -webkit-user-select: none !important; 
+  -moz-user-select: none !important;    
+  -ms-user-select: none !important;    
+  user-select: none !important;         
+  -webkit-touch-callout: none !important; 
+}
+
 /* mapa */
 .map-container iframe {
     width: 100%;
@@ -359,46 +465,8 @@ section {
     border-radius: 10px;
 }
 
-/* kontener */
-.glow-section {
-    position: relative;
-    overflow: hidden;
-}
 
-/* animowany połysk */
-.glow-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 50%;
-    height: 100%;
 
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.25),
-        transparent
-    );
-
-    transform: skewX(-20deg);
-    animation: glowMove 4s linear infinite;
-}
-
-/* stały lekki glow */
-.glow-section {
-    box-shadow: 0 0 20px rgba(0,200,83,0.3);
-}
-
-/* animacja */
-@keyframes glowMove {
-    0% {
-        left: -150%;
-    }
-    100% {
-        left: 150%;
-    }
-}
 
 .theme-switch {
     position: relative;
@@ -487,7 +555,6 @@ input:checked + .slider::before {
     border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
-
     transition: 0.3s;
 }
 
@@ -501,6 +568,9 @@ input:checked + .slider::before {
     position: relative;
     overflow: hidden;
     transition: 0.3s;
+    position: relative;
+overflow: hidden;
+border-radius: 12px;
 }
 
 /* glow */
@@ -536,8 +606,379 @@ input:checked + .slider::before {
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
+.service-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+
+    width: 50%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.25),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+    pointer-events: none;
+}
+
+.service-item:hover::after {
+    animation: shine 0.7s ease forwards;
+}
+
+.service-item::before {
+    z-index: 1;
+}
+
+.service-item::after {
+    z-index: 2;
+}
+
+@keyframes shine {
+    from { left: -150%; }
+    to { left: 150%; }
+}
+
+.service-item::after {
+    content: "🚴";
+    position: absolute;
+
+    top: 0px;          /* 🔼 na samej górze */
+    left: -60px;
+
+    font-size: 20px;
+
+    transform: scaleX(-1); /* 🔁 odwraca kierunek jazdy */
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* animacja */
+.service-item:hover::after {
+    animation: ride 2.5s linear infinite;
+}
+
+@keyframes ride {
+    0% {
+        left: -60px;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        left: 110%;
+        opacity: 0;
+    }
+}
+
+.service-item {
+    position: relative;
+    border-radius: 16px;
+}
+
+.service-item {
+    position: relative;
+    border-radius: 16px;
+    z-index: 1;
+}
+
+.service-item {
+    position: relative;
+    border-radius: 16px;
+    transition: box-shadow 0.3s ease;
+}
+
+
+
+.service-item:hover {
+    box-shadow:
+        0 0 8px rgba(33,150,243,0.6),
+        0 0 20px rgba(33,150,243,0.5),
+        0 0 40px rgba(33,150,243,0.4),
+        0 0 80px rgba(33,150,243,0.25);
+}
+
+.service-item:hover {
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        box-shadow:
+            0 0 10px rgba(33,150,243,0.4),
+            0 0 30px rgba(33,150,243,0.3);
+    }
+    to {
+        box-shadow:
+            0 0 20px rgba(33,150,243,0.7),
+            0 0 60px rgba(33,150,243,0.5);
+    }
+}
+
+.faq-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    transition: 0.3s;
+}
+
+/* przycisk */
+.faq-question {
+    width: 100%;
+    padding: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* odpowiedź */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s ease;
+    padding: 0 20px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-bottom: 20px;
+}
+
+/* ikonka */
+.faq-icon {
+    transition: 0.3s;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+/* glow border */
+.faq-item:hover {
+    box-shadow:
+        0 0 10px rgba(33,150,243,0.4),
+        0 0 30px rgba(33,150,243,0.3);
+}
+
+/* glow pod myszką */
+.faq-item::before {
+    content: "";
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    background: radial-gradient(circle, rgba(33,150,243,0.25), transparent 70%);
+
+    top: var(--y);
+    left: var(--x);
+
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+
+    opacity: 0;
+    transition: 0.2s;
+    filter: blur(10px);
+}
+
+.faq-item:hover::before {
+    opacity: 1;
+}
+
+.why-box > div::before {
+    content: "";
+    position: absolute;
+
+    width: 200px;
+    height: 200px;
+
+    background: radial-gradient(circle, rgba(33,150,243,0.25), transparent 70%);
+
+    top: var(--y);
+    left: var(--x);
+
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: 0.2s;
+    pointer-events: none;
+    filter: blur(10px);
+}
+
+.why-box > div:hover::before {
+    opacity: 1;
+}
+
+.why-box {
+    display: grid;
+    gap: 15px;
+}
+
+.why-box > div {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* gdy sekcja aktywna */
+.why-box.show > div {
+    animation: fadeUp 0.6s ease forwards;
+}
+
+/* animacja */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.why-box.show > div:nth-child(1) { animation-delay: 0.1s; }
+.why-box.show > div:nth-child(2) { animation-delay: 0.2s; }
+.why-box.show > div:nth-child(3) { animation-delay: 0.3s; }
+.why-box.show > div:nth-child(4) { animation-delay: 0.4s; }
+.why-box.show > div:nth-child(5) { animation-delay: 0.5s; }
+.why-box.show > div:nth-child(6) { animation-delay: 0.6s; }
+.why-box.show > div:nth-child(7) { animation-delay: 0.7s; }
+.why-box.show > div:nth-child(8) { animation-delay: 0.8s; }
+.why-box.show > div:nth-child(9) { animation-delay: 0.9s; }
+
+.why-box > div {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* animacja wejścia */
+.why-box.show > div {
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.why-card {
+    display: block;
+    padding: 15px 20px;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    transition: transform 0.15s ease, box-shadow 0.3s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+/* glow */
+.why-card:hover {
+    box-shadow:
+        0 0 10px rgba(33,150,243,0.4),
+        0 0 30px rgba(33,150,243,0.3);
+}
+
+html {
+    scroll-behavior: smooth;
+
+    scroll-padding-top: 80px; 
+}
+
+body {
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+.video-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.video-container video {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* To jest KLUCZOWE, żeby Lenis przejął kontrolę nad scrollem */
+html.lenis, html.lenis body {
+  height: auto !important;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Upewnij się, że Twoje body nie ma tych dwóch opcji: */
+body {
+  overflow-x: hidden; /* To jest OK */
+  /* overflow-y: hidden; <--- TO USUŃ, jeśli masz */
+  min-height: 200vh; /* Dodaj to testowo, żeby mieć co scrollować! */
+}
+
+.footer p {
+    display: inline-block; /* Żeby podkreślnik nie leciał przez całą szerokość strony */
+    position: relative;
+    cursor: pointer;
+}
+
+/* Tworzymy linię, która startuje od środka (scaleX 0) */
+.footer p::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Odległość od tekstu */
+    width: 100%;
+    height: 2px;
+    background: #00f3ff; /* Twój neonowy błękit */
+    box-shadow: 0 0 10px #00f3ff; /* Glow dla linii */
+    
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: center; /* Animacja rozchodzi się od środka */
+}
+
+/* Rozwijanie linii po najechaniu */
+.footer p:hover::after {
+    transform: scaleX(1);
+}
+
+
+
 </style>
 </head>
+
 
 <div id="lightbox" onclick="closeLightbox()">
     <img id="lightbox-img">
@@ -547,7 +988,7 @@ input:checked + .slider::before {
 
 <div class="navbar">
     <div>
-    <img src="5.png" alt="Logo" style="height:120px; cursor:pointer;" onclick="scrollToTop()">
+    <img src="5.png" data-tooltip="Rider's Bike Garage - Strona  Główna" alt="Logo" style="height:120px; cursor:pointer;" onclick="scrollToTop()">
 </div>
 
     <div class="menu" id="menu">
@@ -558,6 +999,8 @@ input:checked + .slider::before {
         <div class="menu-item"><a href="#mapa">Jak dojechać</a></div>
         <div class="menu-item"><a href="#galeria">Galeria realizacji</a></div>
         <div class="menu-item"><a href="#dlaczego">Dlaczego my?</a></div>
+        <div class="menu-item"><a href="#faq" data-tooltip="Najczęstsze pytania">FAQ</a></div>
+        <div class="menu-item"><a href="#video" data-tooltip="Jak wygląda nasza praca?">Nasza praca</a></div>
         <div class="underline" id="underline"></div>
     </div>
 
@@ -570,7 +1013,7 @@ input:checked + .slider::before {
 
   <label class="theme-switch">
     <input type="checkbox" id="themeToggle">
-    <span class="slider"></span>
+    <span class="slider" data-tooltip="Włącz tryb jasny lub ciemny"></span>
   </label>
 </div>
     </div>
@@ -582,37 +1025,42 @@ input:checked + .slider::before {
     <div class="hero-text">
         <h1>Rider's Bike Garage - Profesjonalny serwis rowerowy</h1>
 
-        <p>
-Świadczymy kompleksowe usługi serwisowe dla rowerów wszystkich typów — od rowerów miejskich, przez trekkingowe, aż po rowery sportowe i górskie. Naszym celem jest zapewnienie maksymalnej sprawności, bezpieczeństwa oraz komfortu jazdy w każdych warunkach.
-</p>
+      <p>
+        W naszym serwisie dbamy o każdy detal Twojego roweru – od drobnych regulacji po kompleksowe naprawy. 
+        Każdy rower traktujemy indywidualnie, analizując jego stan i potrzeby użytkownika, tak aby zapewnić nie tylko sprawność, 
+        ale także maksymalną wydajność i bezpieczeństwo.  
+      </p>
 
-<p>
-Każdy rower traktujemy indywidualnie, rozpoczynając od dokładnej diagnostyki stanu technicznego. Na tej podstawie dobieramy odpowiedni zakres prac, obejmujący zarówno podstawowe regulacje, jak i zaawansowane naprawy mechaniczne oraz hydrauliczne. Dzięki doświadczeniu i precyzji jesteśmy w stanie skutecznie usuwać usterki oraz zapobiegać ich powstawaniu w przyszłości.
-</p>
+      <p>
+        Korzystamy wyłącznie ze sprawdzonych narzędzi i wysokiej jakości części. 
+        Niezależnie od tego, czy jeździsz rekreacyjnie, sportowo czy profesjonalnie, nasz zespół zadba o Twój sprzęt jak o własny.  
+      </p>
 
-<p>
-Specjalizujemy się w serwisie napędów, hamulców, kół, piast oraz zawieszenia. Wykonujemy regulacje przerzutek, centrowanie kół, wymiany komponentów, serwis układów hamulcowych, a także pełne przygotowanie roweru do sezonu. Korzystamy ze sprawdzonych narzędzi i wysokiej jakości części, co przekłada się na trwałość i niezawodność wykonanych usług.
-</p>
+      <p>
+        Nasza pasja do rowerów łączy się z doświadczeniem zdobytym przez lata w pracy z rowerzystami na każdym poziomie zaawansowania. 
+        Dla nas nie ma drobnych napraw – każda regulacja, wymiana czy serwis jest wykonywana z pełną precyzją i dbałością o detale.
+      </p>
 
-<p>
-Dbamy o każdy detal — od prawidłowego momentu dokręcenia śrub, przez odpowiednie smarowanie elementów, aż po finalne testy sprawdzające poprawność działania całego roweru. Naszym priorytetem jest nie tylko wykonanie usługi, ale również zapewnienie, że rower będzie działał płynnie, cicho i bezpiecznie przez długi czas.
-</p>
+      <p>
+        Jesteśmy dostępni dla Ciebie, oferując szybką diagnostykę, rzetelne wyceny i fachową obsługę. 
+        Twój rower to nasza odpowiedzialność, a Twoja satysfakcja jest naszym priorytetem.
+      </p>
 
-<p>
-Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, kompleksowego serwisu — możesz liczyć na rzetelne podejście, transparentną wycenę oraz fachowe doradztwo. Zapraszamy do skorzystania z naszych usług i dołączenia do grona zadowolonych klientów.
-</p>
+      <p>
+        <strong>Dołącz do grona zadowolonych klientów i pozwól nam zadbać o Twój rower profesjonalnie!</strong>
+        </p>
 
-<div class="home-contact">
-  <a href="mailto:kamilk@data.pl" class="contact-btn">
-    📧 kamilk@data.pl 📧
+<div class="home-contact" data-tooltip="e-mail: r.bike.garage@gmail.com">
+  <a href="mailto:r.bike.garage@gmail.com" class="contact-btn">
+    📧 r.bike.garage@gmail.com 📧
   </a>
 </div>
 
 </div>
 
         <div class="hero-images">
-            <img src="1.jpg">
-            <img src="2.jpg">
+            <img src="1.jpg" data-tooltip="Zdjęcie">
+            <img src="2.jpg" data-tooltip="Zdjęcie 2">
         </div>
     </div>
 
@@ -625,11 +1073,15 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
     <h1>Dlaczego warto nas wybrać?</h1>
 
     <div class="why-box">
-      <div>✔ Doświadczenie i precyzja</div>
-      <div>✔ Szybka realizacja napraw</div>
-      <div>✔ Profesjonalne narzędzia</div>
-      <div>✔ Indywidualne podejście do klienta</div>
-      <div>✔ Gwarancja jakości usług</div>
+      <div><span class="why-card">✔ Doświadczenie i precyzja</div></span>
+      <div><span class="why-card" data-tooltip="* W przypadku większych napraw czas oczekiwania może się wydłużyć">✔ Szybka realizacja napraw</div></span>
+      <div><span class="why-card">✔ Profesjonalne narzędzia</div></span>
+      <div><span class="why-card">✔ Indywidualne podejście do klienta</div></span>
+      <div><span class="why-card">✔ Gwarancja jakości usług</div></span>
+      <div><span class="why-card">✔ Oryginalne części zamienne</div></span>
+      <div><span class="why-card">✔ Serwis wszystkich typów rowerów</div></span>
+      <div><span class="why-card">✔ Dokładny serwis zawieszeń i hydrauliki</span>
+      <div><span class="why-card">✔ Testy drogowe po każdej naprawie</span>
     </div>
 
   </div>
@@ -641,7 +1093,7 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
 
     <h1>Jak dojechać</h1>
 
-    <div class="map-container">
+    <div class="map-container" data-tooltip="Ogrodowa 13, 46-320 Strojec">
 
       <!-- mapa -->
       <iframe 
@@ -664,6 +1116,21 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
 
 </section>
 
+<section id="video">
+  <div class="section-inner">
+
+    <h1>Nasza praca w praktyce</h1>
+
+    <div class="video-container">
+      <video autoplay muted loop playsinline data-tooltip="Nasza praca w praktyce:">
+        <source src="1.mp4"  type="video/mp4" >
+        Twoja przeglądarka nie obsługuje wideo.
+      </video>
+    </div>
+
+  </div>
+</section>
+
 
 <!-- USŁUGI -->
 <section id="uslugi">
@@ -673,93 +1140,94 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
 
 <div class="service-category">
 <h2>Ogólny serwis i konserwacja</h2>
-<div class="service-item"><span>Przegląd roweru z wyceną naprawy</span><span class="price">120 zł</span></div>
-<div class="service-item"><span>Mycie roweru i napędu</span><span class="price">50 - 80 zł</span></div>
-<div class="service-item"><span>Mycie napędu</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Oklejanie roweru</span><span class="price"> 500 zł</span></div>
+<div class="service-item" data-tooltip="Ogólny serwis i konserwacja"><span>Przegląd roweru z wyceną naprawy</span><span class="price">120 zł</span></div>
+<div class="service-item" data-tooltip="Ogólny serwis i konserwacja"><span>Mycie roweru i napędu</span><span class="price">50 - 80 zł</span></div>
+<div class="service-item" data-tooltip="Ogólny serwis i konserwacja"><span>Mycie napędu</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Ogólny serwis i konserwacja"><span>Oklejanie roweru</span><span class="price"> 500 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Koła i opony</h2>
-<div class="service-item"><span>Centrowanie koła</span><span class="price">30 - 100 zł</span></div>
-<div class="service-item"><span>Wymiana dętki lub opony</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Wymiana dętki/opony w rowerze miejskim (holenderka)</span><span class="price">45 - 100 zł</span></div>
-<div class="service-item"><span>Montaż opony tubeless</span><span class="price">70 zł</span></div>
-<div class="service-item"><span>Montaż opony tubeless z wkładką Cushcore</span><span class="price">100 zł</span></div>
-<div class="service-item"><span>Uzupełnienie uszczelniacza w oponach tubeless</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Naklejenie taśmy tubeless</span><span class="price">20 zł</span></div>
-<div class="service-item"><span>Załatanie dziury w dętce</span><span class="price">20 - 40 zł</span></div>
-<div class="service-item"><span>Załatanie dziury w oponie tubeless</span><span class="price">40 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Centrowanie koła</span><span class="price">30 - 100 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Wymiana dętki lub opony</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Wymiana dętki/opony w rowerze miejskim (holenderka)</span><span class="price">45 - 100 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Montaż opony tubeless</span><span class="price">70 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Montaż opony tubeless z wkładką Cushcore</span><span class="price">100 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Uzupełnienie uszczelniacza w oponach tubeless</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Naklejenie taśmy tubeless</span><span class="price">20 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Załatanie dziury w dętce</span><span class="price">20 - 40 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Załatanie dziury w oponie tubeless</span><span class="price">40 zł</span></div>
+<div class="service-item" data-tooltip="Koła i opony"><span>Wymiana wkładki Cushcore</span><span class="price">65 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Piasty i łożyska</h2>
-<div class="service-item"><span>Serwis piast na łożyskach kulkowych</span><span class="price">50 - 80 zł</span></div>
-<div class="service-item"><span>Wymiana łożysk w piastach</span><span class="price">50 - 100 zł</span></div>
-<div class="service-item"><span>Serwis bębenka</span><span class="price">45 zł</span></div>
+<div class="service-item" data-tooltip="Piasty i łożyska"><span>Serwis piast na łożyskach kulkowych</span><span class="price">50 - 80 zł</span></div>
+<div class="service-item" data-tooltip="Piasty i łożyska"><span>Wymiana łożysk w piastach</span><span class="price">50 - 100 zł</span></div>
+<div class="service-item" data-tooltip="Piasty i łożyska"><span>Serwis bębenka</span><span class="price">45 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Napęd i przerzutki</h2>
-<div class="service-item"><span>Wymiana łańcucha, kasety, wolnobiegu</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Regulacja przerzutki</span><span class="price">20 - 60 zł</span></div>
-<div class="service-item"><span>Regulacja przerzutki z prostowaniem haka</span><span class="price">35 - 65 zł</span></div>
-<div class="service-item"><span>Wymiana/montaż przerzutki lub manetki</span><span class="price">50 - 100 zł</span></div>
-<div class="service-item"><span>Wymiana/montaż mechanizmu korbowego</span><span class="price">30 - 55 zł</span></div>
-<div class="service-item"><span>Wymiana/montaż wkładu suportu</span><span class="price">30 - 80 zł</span></div>
-<div class="service-item"><span>Wymiana/montaż zębatek mechanizmu korbowego</span><span class="price">30 - 80 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Wymiana łańcucha, kasety, wolnobiegu</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Regulacja przerzutki</span><span class="price">20 - 60 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Regulacja przerzutki z prostowaniem haka</span><span class="price">35 - 65 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Wymiana/montaż przerzutki lub manetki</span><span class="price">50 - 100 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Wymiana/montaż mechanizmu korbowego</span><span class="price">30 - 55 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Wymiana/montaż wkładu suportu</span><span class="price">30 - 80 zł</span></div>
+<div class="service-item" data-tooltip="Napęd i przerzutki"><span>Wymiana/montaż zębatek mechanizmu korbowego</span><span class="price">30 - 80 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Hamulce</h2>
-<div class="service-item"><span>Regulacja hamulców szczękowych</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Regulacja hamulców tarczowych</span><span class="price">40 zł</span></div>
-<div class="service-item"><span>Wymiana klocków hamulcowych szczękowych + regulacja</span><span class="price">45 zł</span></div>
-<div class="service-item"><span>Wymiana okładzin hamulcowych</span><span class="price">45 zł</span></div>
-<div class="service-item"><span>Wymiana/montaż tarczy hamulcowej</span><span class="price">15 zł</span></div>
-<div class="service-item"><span>Odpowietrzenie hamulca hydraulicznego</span><span class="price">70 - 90 zł</span></div>
-<div class="service-item"><span>Skrócenie przewodu hamulcowego z odpowietrzeniem</span><span class="price">100 zł</span></div>
-<div class="service-item"><span>Wymiana klamki, przewodu i zacisku hamulca hydraulicznego</span><span class="price">100 zł</span></div>
-<div class="service-item"><span>Prostowanie tarczy hamulcowej</span><span class="price">20 zł</span></div>
-<div class="service-item"><span>Montaż hamulca hydraulicznego tylnego</span><span class="price">130 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Regulacja hamulców szczękowych</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Regulacja hamulców tarczowych</span><span class="price">40 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Wymiana klocków hamulcowych szczękowych + regulacja</span><span class="price">45 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Wymiana okładzin hamulcowych</span><span class="price">45 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Wymiana/montaż tarczy hamulcowej</span><span class="price">15 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Odpowietrzenie hamulca hydraulicznego</span><span class="price">70 - 90 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Skrócenie przewodu hamulcowego z odpowietrzeniem</span><span class="price">100 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Wymiana klamki, przewodu i zacisku hamulca hydraulicznego</span><span class="price">100 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Prostowanie tarczy hamulcowej</span><span class="price">20 zł</span></div>
+<div class="service-item" data-tooltip="Hamulce"><span>Montaż hamulca hydraulicznego tylnego</span><span class="price">130 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Kierownica i kokpit</h2>
-<div class="service-item"><span>Wymiana/montaż sterów</span><span class="price">40 - 70 zł</span></div>
-<div class="service-item"><span>Czyszczenie i smarowanie sterów</span><span class="price">30 - 50 zł</span></div>
-<div class="service-item"><span>Kasowanie luzów łożysk sterów</span><span class="price">10 zł</span></div>
-<div class="service-item"><span>Montaż kierownicy</span><span class="price">40 zł</span></div>
-<div class="service-item"><span>Montaż mostka</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Montaż owijki</span><span class="price">80 zł</span></div>
-<div class="service-item"><span>Montaż chwytów</span><span class="price">15 zł</span></div>
-<div class="service-item"><span>Skrócenie kierownicy</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Wymiana/montaż sterów</span><span class="price">40 - 70 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Czyszczenie i smarowanie sterów</span><span class="price">30 - 50 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Kasowanie luzów łożysk sterów</span><span class="price">10 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Montaż kierownicy</span><span class="price">40 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Montaż mostka</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Montaż owijki</span><span class="price">80 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Montaż chwytów</span><span class="price">15 zł</span></div>
+<div class="service-item" data-tooltip="Kierownica i kokpit"><span>Skrócenie kierownicy</span><span class="price">30 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Rama i zawieszenie</h2>
-<div class="service-item"><span>Sprawdzenie punktu obrotu wahacza ramy</span><span class="price">20 zł</span></div>
-<div class="service-item"><span>Wymiana łożyska w ramie</span><span class="price">30 zł</span></div>
-<div class="service-item"><span>Wymiana nitonakrętki w ramie (gwint bidonu)</span><span class="price">20 - 50 zł</span></div>
-<div class="service-item"><span>Podstawowy serwis amortyzatorów</span><span class="price">150 zł</span></div>
-<div class="service-item"><span>Pełny serwis amortyzatorów</span><span class="price">500 zł</span></div>
-<div class="service-item"><span>Wymiana części eksploatacyjnych</span><span class="price">170 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Sprawdzenie punktu obrotu wahacza ramy</span><span class="price">20 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Wymiana łożyska w ramie</span><span class="price">30 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Wymiana nitonakrętki w ramie (gwint bidonu)</span><span class="price">20 - 50 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Podstawowy serwis amortyzatorów</span><span class="price">150 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Pełny serwis amortyzatorów</span><span class="price">500 zł</span></div>
+<div class="service-item" data-tooltip="Rama i zawieszenie"><span>Wymiana części eksploatacyjnych</span><span class="price">170 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Sztyca</h2>
-<div class="service-item"><span>Montaż sztycy regulowanej</span><span class="price">100 zł</span></div>
-<div class="service-item"><span>Serwis podstawowy sztycy regulowanej</span><span class="price">120 zł</span></div>
-<div class="service-item"><span>Pełny serwis sztycy regulowanej BikeYoke Revive, Divine</span><span class="price">350 zł</span></div>
+<div class="service-item" data-tooltip="Sztyca"><span>Montaż sztycy regulowanej</span><span class="price">100 zł</span></div>
+<div class="service-item" data-tooltip="Sztyca"><span>Serwis podstawowy sztycy regulowanej</span><span class="price">120 zł</span></div>
+<div class="service-item" data-tooltip="Sztyca"><span>Pełny serwis sztycy regulowanej BikeYoke Revive, Divine</span><span class="price">350 zł</span></div>
 </div>
 
 <div class="service-category">
 <h2>Pozostałe</h2>
-<div class="service-item"><span>Wymiana pancerza i linki (zewnętrzne prowadzenie)</span><span class="price">25 - 50 zł</span></div>
-<div class="service-item"><span>Wymiana pancerza i linki (wewnętrzne prowadzenie)</span><span class="price">50 - 100 zł</span></div>
-<div class="service-item"><span>Serwis pedałów</span><span class="price">70 zł</span></div>
-<div class="service-item"><span>Montaż pedałów</span><span class="price">20 zł</span></div>
-<div class="service-item"><span>Czynności nieujęte w cenniku (stawka roboczogodziny)</span><span class="price">—</span></div>
+<div class="service-item" data-tooltip="Pozostałe"><span>Wymiana pancerza i linki (zewnętrzne prowadzenie)</span><span class="price">25 - 50 zł</span></div>
+<div class="service-item" data-tooltip="Pozostałe"><span>Wymiana pancerza i linki (wewnętrzne prowadzenie)</span><span class="price">50 - 100 zł</span></div>
+<div class="service-item"data-tooltip="Pozostałe"><span>Serwis pedałów</span><span class="price">70 zł</span></div>
+<div class="service-item" data-tooltip="Pozostałe"><span>Montaż pedałów</span><span class="price">20 zł</span></div>
+<div class="service-item" data-tooltip="Pozostałe"><span>Czynności nieujęte w cenniku (stawka roboczogodziny)</span><span class="price">—</span></div>
 </div>
 
 <div class="pdf-download">
@@ -774,29 +1242,37 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
 <!-- O MNIE -->
 <section id="omnie">
   <div class="section-inner">
+    <div class="omnie-text">
+      <h1>Kim jestem</h1>
+      <p>
+        Nazywam się Kamil i od wielu lat zajmuję się profesjonalnym serwisem rowerów.  
+        Każdy rower, który trafia w moje ręce, traktuję indywidualnie, analizując potrzeby użytkownika i stan techniczny sprzętu.  
+      </p>
 
-    <div>
-        <h1>Kim jestem</h1>
-        <p>
-            Nazywam się Kamil i od wielu lat zajmuję się profesjonalnym serwisem rowerów.
-            Łączę doświadczenie, pasję oraz precyzję, aby zapewnić najwyższą jakość usług.
-        </p>
-        <p>
-            Każdy rower traktuję indywidualnie — od podstawowych regulacji po kompleksowe naprawy.
-            Zawsze stawiam na dokładność, bezpieczeństwo i trwałość wykonanych prac.
-        </p>
+      <p>
+        Moje doświadczenie obejmuje serwis mechaniczny i hydrauliczny, regulacje napędu, hamulców, amortyzatorów, przerzutek oraz pełną diagnostykę rowerów.  
+        Dzięki temu mogę zapewnić, że każdy rower wychodzi od nas w stanie perfekcyjnym, gotowy do jazdy zarówno w mieście, jak i w trudnym terenie.  
+      </p>
+
+      <p>
+        Łączę pasję, precyzję i najnowsze technologie, aby Twój rower działał jak nowy.  
+        Stawiam na jakość, bezpieczeństwo i trwałość napraw. Każda regulacja i wymiana części wykonywana jest z pełną dokładnością.  
+      </p>
+
+      <p>
+        Dla mnie serwis to nie tylko praca – to misja. Każdy klient opuszczający nasz serwis może być pewien, że jego rower jest w najlepszych rękach.  
+      </p>
     </div>
 
     <div class="omnie-img">
-        <img src="3.jpg">
+      <img src="3.jpg" data-tooltip="Zdjęcie 3" alt="O mnie">
     </div>
-
   </div>
 </section>
 
 <!-- FINAL IMAGE -->
 <section class="final-image">
-    <img src="4.jpg">
+    <img src="4.jpg" data-tooltip="Zdjęcie 4">
 </section>
 
 <!-- GODZINY -->
@@ -811,6 +1287,41 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
 <div class="day" data-day="5"><span>🕒 Piątek</span><span>9:00 - 17:00</span></div>
 </section>
 
+<section id="faq">
+  <div class="section-inner">
+    <h1>Najczęstsze pytania</h1>
+
+    <div class="faq-container">
+
+      <div class="faq-item">
+        <h3>Ile trwa naprawa roweru?</h3>
+        <p>Standardowy serwis trwa od 1 do 3 dni roboczych. W przypadku większych napraw czas może się wydłużyć.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Czy trzeba się wcześniej umawiać?</h3>
+        <p>Nie jest to konieczne, ale zalecamy kontakt przed przyjazdem, aby skrócić czas oczekiwania.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Czy wykonujecie serwis rowerów elektrycznych?</h3>
+        <p>Tak, oferujemy serwis mechaniczny oraz podstawową diagnostykę rowerów elektrycznych.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Ile kosztuje przegląd roweru?</h3>
+        <p>Ceny zaczynają się od 120 zł, w zależności od zakresu prac i stanu roweru.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Czy używacie części wysokiej jakości?</h3>
+        <p>Tak, korzystamy wyłącznie ze sprawdzonych komponentów renomowanych producentów.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- GALERIA -->
 <section id="galeria" class="no-anim">
   <div class="section-inner">
@@ -818,20 +1329,20 @@ Niezależnie od tego, czy potrzebujesz szybkiej regulacji, czy pełnego, komplek
     <h1>Galeria realizacji</h1>
 
     <div class="gallery">
-        <img src="6.jpg" onclick="openLightbox(this.src)">
-        <img src="7.jpg" onclick="openLightbox(this.src)">
-        <img src="8.jpg" onclick="openLightbox(this.src)">
-        <img src="9.jpg" onclick="openLightbox(this.src)">
-        <img src="10.jpg" onclick="openLightbox">
-        <img src="11.jpg" onclick="openLigtbox(this.src)">
-        <img src="12.jpg" onclick="openLigtbox(this.src)">
-        <img src="13.jpg" onclick="openLightbox(this.src)">
-        <img src="14.jpg" onclick="openLightbox(this.src)">
-        <img src="15.jpg" onclick="openLightbox(this.src)">
-        <img src="16.jpg" onclick="openLightbox(this.src)">
-        <img src="17.jpg" onclick="openLightbox(this.src)">
-        <img src="18.jpg" onclick="openLightbox(this.src)">
-        <img src="19.png" onclick="openLightbox(this.src)">
+        <img src="6.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 6">
+        <img src="7.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 7">
+        <img src="8.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 8">
+        <img src="9.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 9">
+        <img src="10.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 10">
+        <img src="11.jpg" onclick="openLigtbox(this.src)" data-tooltip="Zdjęcie 11">
+        <img src="12.jpg" onclick="openLigtbox(this.src)" data-tooltip="Zdjecie 12">
+        <img src="13.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 13">
+        <img src="14.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 14">
+        <img src="15.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 15">
+        <img src="16.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 16">
+        <img src="17.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 17">
+        <img src="18.jpg" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 18">
+        <img src="19.png" onclick="openLightbox(this.src)" data-tooltip="Zdjęcie 19">
     </div>
 
   </div>
@@ -913,6 +1424,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const inner = entry.target.querySelector(".section-inner");
+            
+            const whyBox = entry.target.querySelector(".why-box");
+if (whyBox) {
+    if (entry.isIntersecting) {
+        whyBox.classList.add("show");
+    } else {
+        whyBox.classList.remove("show");
+    }
+}
+
             if (!inner) return;
 
             if (entry.isIntersecting) {
@@ -986,7 +1507,7 @@ document.querySelectorAll(".service-item").forEach(item => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const rotateX = ((y - centerY) / centerY) * -10; // góra/dół
+        const rotateX = ((y - centerY) / centerY) * -15; // góra/dół
         const rotateY = ((x - centerX) / centerX) * 10;  // lewo/prawo
 
         item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
@@ -998,11 +1519,163 @@ document.querySelectorAll(".service-item").forEach(item => {
 
 });
 
+
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+
+    // klik - rozwijanie
+    item.addEventListener("click", () => {
+        item.classList.toggle("active");
+    });
+
+    // glow pod myszką
+    item.addEventListener("mousemove", e => {
+        const rect = item.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        item.style.setProperty("--x", x + "px");
+        item.style.setProperty("--y", y + "px");
+    });
+
+    // tilt
+    item.addEventListener("mousemove", (e) => {
+        const rect = item.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    item.addEventListener("mouseleave", () => {
+        item.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    });
+
+});
+
+document.querySelectorAll(".why-card").forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+
+        card.style.transform =
+            `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+        card.style.transform =
+            "perspective(800px) rotateX(0deg) rotateY(0deg)";
+    });
+
+});
+
+
+// 1. Tworzymy "pancerny" dymek w JS
+const neonTip = document.createElement('div');
+neonTip.style.cssText = `
+    position: fixed;
+    display: none;
+    padding: 8px 15px 8px 45px;
+    
+    /* PRZEZROCZYSTE TŁO - musisz widzieć przez dymek, żeby działał blur */
+    background: rgba(10, 10, 10, 0.5); 
+    
+    /* EFEKT SZKŁA (BLUR) */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    color: #00f3ff;
+    border: 1px solid #00f3ff;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 10000;
+    
+    /* NEONOWY GLOW */
+    box-shadow: 0 0 15px rgba(0, 243, 255, 3.0);
+    text-shadow: 0 0 5px #00f3ff;
+    
+    pointer-events: none;
+    font-family: sans-serif;
+    
+    /* WYMUSZENIE WARSTWY DLA GPU IRIS 540 */
+    transform: translateZ(0);
+`;
+
+// 2. Dodajemy Twój klucz 1.svg do środka dymka
+const keyIcon = document.createElement('div');
+keyIcon.style.cssText = `
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 24px; height: 24px;
+    background: url('1.svg') no-repeat center;
+    background-size: contain;
+`;
+neonTip.appendChild(keyIcon);
+
+// Dodajemy kontener na tekst, żeby nie skasować ikonki przy zmianie napisu
+const tipText = document.createElement('span');
+neonTip.appendChild(tipText);
+document.body.appendChild(neonTip);
+
+// 3. Obsługa zdarzeń - nie gryzie się z Twoim skryptem Win10
+document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('[data-tooltip]');
+    if (target) {
+        tipText.textContent = target.getAttribute('data-tooltip');
+        neonTip.style.display = 'block';
+    }
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (neonTip.style.display === 'block') {
+        neonTip.style.left = (e.clientX + 20) + 'px';
+        neonTip.style.top = (e.clientY + 20) + 'px';
+    }
+});
+
+document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('[data-tooltip]')) {
+        neonTip.style.display = 'none';
+    }
+});
+
+
+// KLUCZ: Musi być rgba z niskim ostatnim numerem (0.4 - 0.6)
+tooltip.style.background = 'rgba(15, 15, 15, 0.5)'; 
+
+// DODATEK: Czasami Chrome potrzebuje tego, żeby "zauważyć" tło pod spodem
+tooltip.style.backdropFilter = 'blur(12px) saturate(180%)';
+tooltip.style.webkitBackdropFilter = 'blur(12px) saturate(180%)';
+
+document.getElementById("current-year").textContent = new Date().getFullYear();
+
+
 setInterval(updateStatus,4);
 </script>
 
 <footer class="footer">
-  <p>© 2026 Rider's Bike Garage. Wszelkie prawa zastrzeżone.</p>
+  <p>© <span id="current-year">2026</span> Rider's Bike Garage. Wszelkie prawa zastrzeżone.</p>
+  <p>📧 r.bike.garage@gmail.com 📧</p>
+  <p>📞 +48 606 298 789 📞</p>
+  <p>📍 Ogrodowa 13, 46-320 Strojec 📍</p>
+  <p>Designed by Rider's Bike Garage Design Center in Poland</p>
 </footer>
 </body>
 </html>
